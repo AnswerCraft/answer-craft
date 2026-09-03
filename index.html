@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071b3b">
+  <title>Answer Craft</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><img src="answer-craft-icon.png" alt=""></span><span>Answer Craft</span></div>
+      <div class="line-status pending" id="lineStatus"><span class="live-dot"></span><span>Your line · Not connected</span></div>
+    </header>
+
+    <section class="intro">
+      <div class="hero-copy"><p class="eyebrow"><span></span> CALL HANDLING</p><h1>Every call, <em>beautifully answered.</em></h1><p>Shape the experience your callers hear—personal, polished, and unmistakably yours.</p></div>
+      <div class="hero-art" aria-hidden="true"><img class="receptionist" src="receptionist-hero.png" alt=""><div class="sound-orbit orbit-one"></div><div class="sound-orbit orbit-two"></div><div class="hero-bubble"><i></i><i></i><i></i><i></i><i></i><b>✓</b></div><span class="float-chip chip-one">Ready</span><span class="float-chip chip-two">24/7</span></div>
+    </section>
+
+    <section class="mode-picker" aria-label="Call mode">
+      <button class="mode-card active" data-mode="voicemail" aria-pressed="true">
+        <span class="mode-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="5" width="20" height="22" rx="8"/><path d="M11 15v3m3-6v9m4-12v15m4-10v5"/><path d="M10 25h12"/></svg></span>
+        <strong>Custom voicemail</strong>
+        <small>Play your greeting, then record a message.</small>
+      </button>
+      <button class="mode-card" data-mode="assistant" aria-pressed="false">
+        <span class="mode-icon sparkle"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 17a9 9 0 0 1 18 0v6h-4v-6a5 5 0 0 0-10 0v6H7z"/><path d="M22 23c0 3-2 4-6 4"/><path d="m24 5 1-3 1 3 3 1-3 1-1 3-1-3-3-1z"/></svg></span>
+        <strong>AI receptionist</strong>
+        <small>Ask your questions, then save a clear summary.</small>
+      </button>
+    </section>
+
+    <section class="panel" id="voicemailPanel">
+      <div class="section-heading"><div><p class="step">1</p><h2>Write your greeting</h2></div><span id="charCount">0 / 600</span></div>
+      <textarea id="greeting" maxlength="600">Thank you for calling Answer Craft. We’re unable to answer right now. Please leave your name, phone number, and a brief message, and we’ll get back to you as soon as possible.</textarea>
+      <p class="hint">This is exactly what callers will hear before the tone.</p>
+      <div class="native-voicemail">
+        <div><p class="overline">KEEPS YOUR REGULAR VOICEMAIL</p><h3>Install this greeting on your phone</h3><p>Your carrier continues recording messages, so they remain in the iPhone or Android voicemail inbox you already use.</p></div>
+        <button class="connect-button" id="installGreeting">Install greeting</button>
+      </div>
+      <div class="connection-result hidden" id="installResult" role="status"></div>
+    </section>
+
+    <section class="panel hidden" id="assistantPanel">
+      <div class="section-heading"><div><p class="step">1</p><h2>Tell the assistant what to ask</h2></div></div>
+      <label for="welcome">Opening message</label>
+      <textarea id="welcome" maxlength="600">Thank you for calling Answer Craft. I’m the answering assistant. I’ll ask a few quick questions so the team can follow up.</textarea>
+      <label>Questions</label>
+      <div id="questions" class="question-list"></div>
+      <button class="text-button" id="addQuestion">＋ Add a question</button>
+      <div class="assistant-routing" aria-labelledby="connectTitle">
+        <div class="connect-heading">
+          <div class="connect-icon" aria-hidden="true">↪</div>
+          <div><p class="overline">PRIVATE MISSED-CALL ROUTING</p><h3 id="connectTitle">Connect the number your customers already call</h3><p>Your number and normal ringing stay the same. If you do not answer, the call goes privately to the AI receptionist.</p></div>
+        </div>
+        <div class="connect-fields">
+          <label class="field"><span>Your existing phone number</span><input id="businessNumber" type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 555-5555"></label>
+          <label class="field"><span>Line type</span><select id="lineType"><option value="mobile">Cellphone</option><option value="landline">Office / landline</option><option value="voip">VoIP business line</option></select></label>
+          <button class="connect-button" id="connectButton">Connect AI receptionist</button>
+        </div>
+        <div class="routing-note"><strong>Customer experience</strong><span>They call your usual number → your phone rings → the AI receptionist answers if you do not.</span></div>
+        <div class="connection-result hidden" id="connectionResult" role="status"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="step">2</p><h2>Choose a voice</h2></div><button class="preview" id="previewVoice">▶ Preview</button></div>
+      <div class="filters">
+        <select id="accent" aria-label="Accent">
+          <option value="en-US">American</option><option value="en-GB">British</option><option value="en-AU">Australian</option><option value="en-IE">Irish</option><option value="en-IN">Indian</option><option value="en-ZA">South African</option>
+        </select>
+        <select id="gender" aria-label="Gender"><option value="all">All voices</option><option value="female">Women</option><option value="male">Men</option></select>
+      </div>
+      <div id="voiceGrid" class="voice-grid" role="radiogroup" aria-label="Voice choices"></div>
+    </section>
+
+    <section class="panel compact">
+      <div class="section-heading"><div><p class="step">3</p><h2>Text notification</h2></div><label class="switch"><input type="checkbox" id="smsEnabled" checked><span></span></label></div>
+      <textarea id="smsReply" maxlength="320">Thanks for calling Answer Craft. We received your message and will follow up soon.</textarea>
+    </section>
+
+    <footer class="action-bar">
+      <div><small>Selected voice</small><strong id="selectedVoiceLabel">Rachel · American</strong></div>
+      <button id="saveButton">Save draft</button>
+    </footer>
+    <div class="toast" id="toast" role="status"></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
